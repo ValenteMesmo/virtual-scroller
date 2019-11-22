@@ -1,0 +1,4 @@
+<ng-content #itemTemplate></ng-content>
+<div *ngFor="let item of items">
+    <ng-container *ngTemplateOutlet="itemTemplate, context: { $implicit: item }"></ng-container>
+</div>

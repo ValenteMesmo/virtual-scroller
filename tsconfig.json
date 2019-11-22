@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "virtual-scroller": [
+        "dist/virtual-scroller"
+      ],
+      "virtual-scroller/*": [
+        "dist/virtual-scroller/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
