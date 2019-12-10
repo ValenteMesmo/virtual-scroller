@@ -7,10 +7,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'sandbox';
-  things = [
-    { id: 1, text: 'aaa' }
-    , { id: 2, text: 'bbb' }
-    , { id: 3, text: 'ccc' }
-    , { id: 4, text: 'ddd' }
-  ];
+  things = [];
+
+  constructor() {
+    for (let i = 0; i <= 100; i++) {
+      this.things.push(
+        {
+          id: i
+          , text: 'text ' + i
+        });
+    }
+  }
 }

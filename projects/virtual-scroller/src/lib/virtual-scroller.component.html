@@ -1,4 +1,18 @@
 <ng-content #itemTemplate></ng-content>
-<div *ngFor="let item of items">
+<div style="height:100px;overflow: auto;" #scroll>
+  <!-- <ng-content select="[before]"></ng-content> -->
+
+
+
+  <div class="ignore" [style.height.px]="emptySizeBefore"></div>
+
+  <ng-template class="teste" ngFor let-item [ngForOf]="visibleItems" style="height:10px">
     <ng-container *ngTemplateOutlet="itemTemplate, context: { $implicit: item }"></ng-container>
+  </ng-template>
+
+  <div class="ignore" [style.height.px]="emptySizeAfter"></div>
+
+
+
+  <!-- <ng-content select="[after]"></ng-content> -->
 </div>
