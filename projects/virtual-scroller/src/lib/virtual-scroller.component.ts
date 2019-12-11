@@ -1,4 +1,4 @@
-import { Component, Input, ContentChild, TemplateRef, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, Input, ContentChild, TemplateRef, ViewChild, OnDestroy, AfterViewInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   // tslint:disable-next-line: component-selector
@@ -32,19 +32,20 @@ export class VirtualScrollerComponent implements AfterViewInit, OnDestroy {
 
   previousFirstIndex = -1;
   previousLastIndex = -1;
+  pageSize = 5;
+  magicNumber = 10;
   private onScroll() {
 
     if (!this.scroll) {
       return;
     }
 
-    const pageSize = 5;
-    const magicNumber = 10;
+
     const scrollTop = this.scroll.nativeElement.scrollTop;
-    const docHeight = this.items.length * magicNumber * pageSize;
+    const docHeight = this.items.length * this.magicNumber * this.pageSize;
     const scollIndex = Math.floor(((this.items.length * scrollTop) / docHeight));
 
-    const pageHalf = Math.floor(pageSize / 2);
+    const pageHalf = Math.floor(this.pageSize / 2);
     let firstIndex = scollIndex - pageHalf;
     let lastIndex = scollIndex + pageHalf;
 
@@ -66,28 +67,35 @@ export class VirtualScrollerComponent implements AfterViewInit, OnDestroy {
     }
     this.previousFirstIndex = firstIndex;
     this.previousLastIndex = lastIndex;
-    console.log(firstIndex, lastIndex);
     this.visibleItems = this.items.slice(firstIndex, lastIndex);
+  }
 
-    setTimeout(() => {
-      let additionalSize = 0;
-      for (const i in this.scroll.nativeElement.childNodes) {
-        if (this.scroll.nativeElement.childNodes[i]) {
-          const element = this.scroll.nativeElement.childNodes[i];
-          if (element && element.classList && !element.classList.contains('ignore')) {
+  resizeEmptySpaces(isLastIndex) {
+    if (!isLastIndex) {
+      return;
+    }
+    const scrollTop = this.scroll.nativeElement.scrollTop;
+    const docHeight = this.items.length * this.magicNumber * this.pageSize;
+    const scollIndex = Math.floor(((this.items.length * scrollTop) / docHeight));
 
-            additionalSize += element.clientHeight;
-          }
+    let additionalSize = 0;
+    for (const i in this.scroll.nativeElement.childNodes) {
+      if (this.scroll.nativeElement.childNodes[i]) {
+        const element = this.scroll.nativeElement.childNodes[i];
+        if (element && element.classList && !element.classList.contains('ignore')) {
+
+          additionalSize += element.clientHeight;
         }
       }
+    }
 
-      this.emptySizeBefore = (scollIndex * magicNumber * pageSize) + magicNumber * pageSize; // scrollTop + additionalSize;
-      if (this.emptySizeBefore < 0) {
-        this.emptySizeBefore = 0;
-      }
-      this.emptySizeAfter = docHeight - this.emptySizeBefore;
-    }, 1);
+    // this.emptySizeBefore = (scollIndex * this.magicNumber * this.pageSize) + this.magicNumber * this.pageSize;
+    this.emptySizeBefore = (scollIndex * this.magicNumber * this.pageSize) + this.magicNumber * this.pageSize;
+    if (this.emptySizeBefore < 0) {
+      this.emptySizeBefore = 0;
+    }
 
+    this.emptySizeAfter = docHeight - this.emptySizeBefore;
   }
 
   ngAfterViewInit() {

@@ -44,3 +44,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/.vs/sandbox/v16/TestStore/0
+/.vs/sandbox/config
+/.vs/slnx.sqlite
