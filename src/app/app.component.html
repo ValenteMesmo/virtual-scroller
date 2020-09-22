@@ -1,7 +1,7 @@
-<virtual-scroller [items]="things">
+<div style="height: 200px; overflow: auto;">
 
-  <ng-template let-something>
-    <div>{{something.text}}</div>
-  </ng-template>
+    <div *virtualScrollFor='let something of things'>
+        {{something.text}}
+    </div>
 
-</virtual-scroller>
+</div>

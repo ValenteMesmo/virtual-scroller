@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { VirtualScrollerModule  } from 'virtual-scroller';
+import { VirtualScrollerModule  } from '../../projects/virtual-scroller/src/lib/virtual-scroller.module';
 
 @NgModule({
   declarations: [
